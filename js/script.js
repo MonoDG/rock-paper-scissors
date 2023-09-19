@@ -9,3 +9,21 @@ function getComputerChoice() {
         return "Scissors";
     }
 }
+
+// Play a single round of Rock Paper Scissors
+function playRound(playerSelection, computerSelection) {
+    playerSelection = playerSelection.toLowerCase();
+    computerSelection = computerSelection.toLowerCase();
+
+    if (playerSelection === computerSelection) {
+        return "Tie!";
+    } else if (playerSelection === "rock" && computerSelection === "paper") {
+        return "You Lose! Paper beats Rock";
+    } else if (playerSelection === "paper" && computerSelection === "scissors") {
+        return "You Lose! Scissors beats Paper";
+    } else if (playerSelection === "scissors" && computerSelection === "rock") {
+        return "You Lose! Rock beats Scissors";
+    } else {
+        return `You won! ${playerSelection} beats ${computerSelection}`
+    }
+}
