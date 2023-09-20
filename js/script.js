@@ -11,58 +11,57 @@ function getComputerChoice() {
 }
 
 // Play a single round of Rock Paper Scissors
-function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toLowerCase();
-    computerSelection = computerSelection.toLowerCase();
+function playRound() {
+    playerSelection = this.id.toLowerCase();
+    computerSelection = getComputerChoice().toLowerCase();
+
+    pSelections.textContent = `You selected [${playerSelection}] - Computer selected [${computerSelection}]`;
 
     if (playerSelection === computerSelection) {
-        console.log("Tie!");
-        return;
+        pResult.textContent = "Tie!";
     } else if (playerSelection === "rock" && computerSelection === "paper") {
-        console.log("You Lose! Paper beats Rock");
-        return "computer";
+        pResult.textContent = "You Lose! Paper beats Rock";
+        computerScore++;
     } else if (playerSelection === "paper" && computerSelection === "scissors") {
-        console.log("You Lose! Scissors beats Paper");
-        return "computer";
+        pResult.textContent = "You Lose! Scissors beats Paper";
+        computerScore++;
     } else if (playerSelection === "scissors" && computerSelection === "rock") {
-        console.log("You Lose! Rock beats Scissors");
-        return "computer";
+        pResult.textContent = "You Lose! Rock beats Scissors";
+        computerScore++;
     } else {
-        console.log(`You won! ${playerSelection} beats ${computerSelection}`);
-        return "player";
+        pResult.textContent = `You won! ${playerSelection} beats ${computerSelection}`;
+        playerScore++;
+    }
+
+    pScores.textContent = `Player score: ${playerScore} | Computer score: ${computerScore}`;
+
+    if (playerScore === 5) {
+        pScores.textContent = `You won 5 rounds! Final score -> Player score: ${playerScore} | Computer score: ${computerScore}`;
+        playerScore = 0;
+        computerScore = 0;
+    }
+
+    if (computerScore === 5) {
+        pScores.textContent = `Computer won 5 rounds! Final score -> Player score: ${playerScore} | Computer score: ${computerScore}`;
+        playerScore = 0;
+        computerScore = 0;
     }
 }
 
-// Play a 5 round game that keeps score and reports a winner or loser at the end
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
+let playerScore = 0;
+let computerScore = 0;
 
-    // Loop 5 times
-    for (let i = 0; i < 5; i++) {
-        // Ask player for a choice
-        let playerSelection = prompt("Choose between rock, paper or scissors: ");
-        // Ask computer for a choice
-        let computerSelection = getComputerChoice();
-        // Play round and determine winner
-        let winner = playRound(playerSelection, computerSelection);
-        // Increase score of winner
-        if (winner) {
-            if (winner === "computer") {
-                computerScore++;
-            } else {
-                playerScore++;
-            }
-        }
-        // Show round played (already done inside playRound)
-    }
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', playRound));
 
-    console.log(`Final score is: ${playerScore} (Player) - ${computerScore} (Computer)`);
-    if (playerScore === computerScore) {
-        console.log("Tie.");
-    } else if (playerScore > computerScore) {
-        console.log("The winner is Player!");
-    } else {
-        console.log("The winner is Computer!");
-    }
-}
+const divResults = document.querySelector(".results");
+const pSelections = document.createElement("p");
+const pResult = document.createElement("p");
+const pScores = document.createElement("p");
+
+pResult.style.cssText = "color: green;";
+pScores.style.cssText = "color: red;";
+
+divResults.appendChild(pSelections);
+divResults.appendChild(pResult);
+divResults.appendChild(pScores);
